@@ -1,0 +1,511 @@
+/* ============================================================
+   Tasksy Skin — applies on top of uploaded ZIP dashboard styles
+   Strategy: redefine fonts + remap brand blues → Tasksy indigo,
+   without touching functional color tokens (shift roles, status pills).
+   ============================================================ */
+
+/* ---- 1. Font system (Tasksy) ------------------------------ */
+html, body,
+.top-text,
+.sidebar,
+.card,
+table, table th, table td,
+input, select, textarea, button,
+.popover-btn,
+.modal-content,
+.dashboard-subtext,
+.shiftBox,
+.shiftBox > .uppercase,
+.shiftBox > .font-semibold {
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display headings + big numeric values use Bricolage Grotesque */
+h1, h2, h3,
+#weekDisplay,
+#dateRangeText,
+.kpi-row .text-3xl,
+.kpi-row .text-xl,
+.draggable-card .text-xl,
+#footerTotalLabel,
+.summary-stat-value {
+  font-family: var(--font-display) !important;
+  letter-spacing: var(--track-tight);
+}
+
+/* Monospace digits for stats / timestamps */
+.stats-row-total,
+#summaryStatsRow,
+#summaryStatsRow > div,
+.shiftBox > .font-semibold[class*="text-["],
+td.text-center,
+#mainLaborTable td.text-center,
+.dashboard-subtext {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* Body baseline */
+body {
+  font-size: 14px !important;
+  color: var(--fg-1) !important;
+}
+
+/* ---- 2. Canvas + chrome -----------------------------------
+   Keep the navy chrome (it's the product's signature) but
+   line it up with Tasksy slate-900 + indigo accents.
+   ----------------------------------------------------------- */
+:root {
+  --zip-navy: #0E1430;         /* Tasksy slate-900 leaning */
+  --zip-navy-2: #1A2148;       /* hover/active rail */
+  --zip-canvas: var(--bg-canvas);
+}
+
+body.bg-\[\#eef2f6\] {
+  background: var(--bg-canvas) !important;
+}
+
+/* Topbar */
+.h-14.bg-\[\#0b2545\] {
+  background: var(--zip-navy) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Sidebar */
+.sidebar.bg-\[\#0b2545\] {
+  background: var(--zip-navy) !important;
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+.sidebar .menu-item:hover { background: var(--zip-navy-2) !important; }
+.sidebar .bg-\[\#1d3b6a\] { background: rgba(91,91,214,0.22) !important; box-shadow: inset 2px 0 0 var(--indigo-400); }
+
+/* App-grid logo button → Tasksy indigo */
+button#appsBtn.bg-\[\#3b82f6\],
+.h-14 .w-9.h-9.bg-\[\#3b82f6\] {
+  background: linear-gradient(135deg, var(--indigo-400), var(--indigo-600)) !important;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+/* Panel & dashboard section headers (dark navy strip) */
+.bg-\[\#1d3a6e\],
+.bg-\[\#1d3b6a\] {
+  background: var(--zip-navy) !important;
+}
+
+/* ---- 3. Cards & surfaces ---------------------------------- */
+.card {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.kpi-row > div {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+.kpi-row > div:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+  border-color: var(--border-default) !important;
+}
+
+/* KPI tile typography */
+.kpi-row .text-3xl {
+  font-size: 30px !important;
+  font-weight: var(--weight-bold) !important;
+  letter-spacing: -0.015em;
+  color: var(--fg-1) !important;
+}
+.kpi-row .text-\[14px\].font-semibold,
+.kpi-row .text-\[14px\].text-slate-700 {
+  color: var(--fg-1) !important;
+  font-size: var(--text-md) !important;
+  font-weight: var(--weight-semibold) !important;
+}
+
+/* KPI icon chips — recolor to Tasksy ramps where used */
+.kpi-row .bg-indigo-50 { background: var(--indigo-50) !important; }
+.kpi-row .text-indigo-600 { color: var(--indigo-600) !important; }
+.kpi-row .bg-green-50   { background: var(--green-50) !important; }
+.kpi-row .text-green-600{ color: var(--green-600) !important; }
+.kpi-row .bg-blue-50    { background: var(--indigo-50) !important; }
+.kpi-row .text-blue-600 { color: var(--indigo-600) !important; }
+.kpi-row .bg-purple-50  { background: var(--indigo-50) !important; }
+.kpi-row .text-purple-600 { color: var(--indigo-700) !important; }
+.kpi-row .bg-emerald-50 { background: var(--green-50) !important; }
+.kpi-row .text-emerald-600 { color: var(--green-600) !important; }
+
+/* The indigo AI tile keeps its glow, but anchored to Tasksy indigo-600 */
+.kpi-row .bg-indigo-600 {
+  background: linear-gradient(140deg, var(--indigo-500) 0%, var(--indigo-600) 60%, var(--indigo-700) 100%) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* WTD footer chips in KPI tiles */
+.kpi-row .bg-slate-50 {
+  background: var(--bg-sunken) !important;
+}
+
+/* ---- 4. Buttons & primary actions ------------------------- */
+button.bg-\[\#3b82f6\],
+button.bg-blue-600,
+.btn-apply,
+button.bg-blue-600.hover\:bg-blue-700 {
+  background: var(--color-primary) !important;
+  color: white !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.18) !important;
+}
+button.bg-\[\#3b82f6\]:hover,
+button.bg-blue-600:hover,
+.btn-apply:hover {
+  background: var(--color-primary-hover) !important;
+}
+
+/* Green publish button — Tasksy green */
+button.bg-green-600 {
+  background: var(--green-600) !important;
+}
+button.bg-green-600:hover { background: var(--green-700) !important; }
+
+/* View tab bar (Dashboard / Analytics) */
+.tab-bar {
+  background: var(--bg-sunken) !important;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm) !important;
+}
+.view-tab.active {
+  background: var(--bg-surface) !important;
+  color: var(--fg-1) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border-radius: var(--radius-xs) !important;
+}
+.view-tab { color: var(--fg-3) !important; font-weight: var(--weight-semibold); border-radius: var(--radius-xs) !important; }
+
+/* Week picker pill */
+#weekDisplay { color: var(--fg-1) !important; }
+
+/* KPIs round button (top toolbar) */
+button[onclick="openKpiStatsModal()"] {
+  background: var(--color-primary) !important;
+  border-radius: var(--radius-full) !important;
+}
+button[onclick="openKpiStatsModal()"]:hover { background: var(--color-primary-hover) !important; }
+
+/* Popover buttons (Filters / Sort By / View By) */
+.popover-btn {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--fg-2) !important;
+  border-radius: var(--radius-full) !important;
+  font-weight: var(--weight-semibold) !important;
+  box-shadow: var(--shadow-sm);
+}
+.popover-btn:hover {
+  background: var(--bg-surface-hover) !important;
+  border-color: var(--border-default) !important;
+  color: var(--fg-1) !important;
+}
+.popover-column-title { border-bottom-color: var(--indigo-500) !important; color: var(--fg-1) !important; }
+
+/* Three-dot action menu items hover */
+.action-dropdown-item:hover { background: var(--indigo-50) !important; color: var(--indigo-700) !important; }
+
+/* ---- 5. Tables -------------------------------------------- */
+#mainLaborTable thead th,
+.labor-table thead th {
+  background: var(--bg-sunken) !important;
+  color: var(--fg-2) !important;
+  font-weight: var(--weight-semibold) !important;
+  font-size: var(--text-2xs) !important;
+  letter-spacing: var(--track-eyebrow) !important;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+#mainLaborTable tbody td,
+.labor-table tbody td {
+  color: var(--fg-1) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+#mainLaborTable tbody tr:hover {
+  background: var(--bg-surface-hover) !important;
+}
+.labor-date { color: var(--indigo-600) !important; font-weight: var(--weight-semibold) !important; }
+
+/* Schedule pad — table header polish */
+#mainScheduleTable thead th {
+  background: var(--bg-sunken) !important;
+  color: var(--fg-2) !important;
+  border-bottom: 2px solid var(--border-subtle) !important;
+}
+#mainScheduleTable thead th:first-child {
+  background: var(--bg-sunken) !important;
+  color: var(--fg-1) !important;
+}
+#mainScheduleTable thead th .font-semibold,
+#mainScheduleTable thead th div.font-bold {
+  color: var(--fg-1) !important;
+}
+table th { background: var(--bg-sunken) !important; color: var(--fg-2) !important; }
+
+/* Employee row name (blue → indigo) */
+.empRow > td:first-child .text-blue-600,
+.empRow > td:first-child .font-bold.text-blue-600 {
+  color: var(--indigo-600) !important;
+  font-weight: var(--weight-semibold) !important;
+}
+
+/* Schedule cells — accent colors stay (functional) but soften */
+.empRow > td:first-child { background: var(--bg-surface) !important; }
+.empRow:hover > td:first-child,
+.empRow:hover > td { background: var(--bg-surface-hover) !important; }
+
+/* Stats footer */
+.stats-summary-bar { background: var(--bg-sunken) !important; }
+.stats-label-col {
+  background: var(--bg-sunken) !important;
+  border-right: 1px solid var(--border-default) !important;
+  color: var(--fg-1) !important;
+}
+#footerTotalLabel { color: var(--fg-1) !important; font-weight: var(--weight-bold) !important; }
+#summaryStatsRow > div {
+  background: var(--bg-surface) !important;
+  border-right: 1px solid var(--border-subtle) !important;
+  color: var(--fg-1) !important;
+}
+
+/* ---- 6. Action panels (dashboard middle row) -------------- */
+/* Subsection chip headers (Time Off / Shift Swap / etc.) */
+.bg-purple-50.text-purple-700  { background: rgba(112,112,222,0.10) !important; color: var(--indigo-700) !important; border-color: rgba(112,112,222,0.20) !important; }
+.bg-blue-50.text-blue-700      { background: var(--indigo-50) !important; color: var(--indigo-700) !important; border-color: rgba(112,112,222,0.20) !important; }
+.bg-teal-50.text-teal-700      { background: var(--green-50) !important; color: var(--green-700) !important; border-color: var(--green-100) !important; }
+.bg-indigo-50.text-indigo-700  { background: var(--indigo-50) !important; color: var(--indigo-700) !important; border-color: rgba(112,112,222,0.20) !important; }
+
+/* Action-panel inner light surface */
+.card .bg-slate-50.rounded-xl { background: var(--bg-sunken) !important; }
+
+/* Pending / Awaiting status pills */
+.text-orange-500 { color: var(--amber-600) !important; }
+.bg-orange-500 { background: var(--amber-500) !important; }
+.text-blue-500.font-bold,
+.bg-blue-500.rounded-full { color: var(--blue-500) !important; }
+.bg-blue-500.rounded-full { background: var(--blue-500) !important; }
+
+/* Assign link (text-blue-600 buttons) */
+.text-blue-600 {
+  color: var(--indigo-600) !important;
+}
+button.text-blue-600:hover { color: var(--indigo-700) !important; }
+
+/* ---- 7. Secondary KPI gradient blocks ---------------------- */
+/* Keep their personality but anchor to Tasksy ramps */
+.draggable-card[style*="linear-gradient(135deg,#ff6b6b,#ef4444)"] {
+  background: linear-gradient(135deg, #F2A04F 0%, #D17F39 100%) !important;
+}
+.draggable-card[style*="linear-gradient(135deg,#6366f1,#4f46e5)"] {
+  background: linear-gradient(135deg, var(--indigo-500) 0%, var(--indigo-700) 100%) !important;
+}
+.draggable-card[style*="linear-gradient(135deg,#34d399,#10b981)"] {
+  background: linear-gradient(135deg, var(--green-500) 0%, var(--green-700) 100%) !important;
+}
+.draggable-card[style*="linear-gradient(135deg,#38bdf8,#0284c7)"] {
+  background: linear-gradient(135deg, #5BB7D9 0%, #1F66D6 100%) !important;
+}
+
+/* ---- 8. Schedule Pad – shift tiles (kept functional) ------ */
+/* Shift role colors are SIGNAL — leave hues, just refine corners + weight */
+.shiftBox {
+  border-radius: var(--radius-sm) !important;
+  font-weight: var(--weight-semibold) !important;
+}
+.shiftBox > .font-semibold {
+  font-weight: var(--weight-semibold) !important;
+  font-family: var(--font-sans) !important;
+  color: var(--fg-1) !important;
+}
+.shiftBox > .uppercase {
+  letter-spacing: var(--track-eyebrow) !important;
+  font-weight: var(--weight-semibold) !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Add-shift hover */
+table td:hover .addShift {
+  background: var(--indigo-50) !important;
+  color: var(--indigo-600) !important;
+}
+
+/* Unassigned row → use Tasksy sunken */
+.unassigned-summary-row td:first-child { background: var(--bg-sunken) !important; }
+.pending-badge {
+  background: var(--red-50) !important;
+  color: var(--red-700) !important;
+  font-weight: var(--weight-bold) !important;
+}
+
+/* ---- 9. Profile popup, dropdowns -------------------------- */
+#profilePopup { box-shadow: var(--shadow-lg) !important; border-radius: var(--radius-lg); }
+#profilePopup .border-slate-100,
+#profilePopup .border-slate-50 { border-color: var(--border-subtle) !important; }
+
+/* Dropdowns / floating menus */
+.popover-container,
+.action-dropdown,
+#calendarMenu,
+#myAppsMenu, #storeMenu,
+#moreOptionsMenu {
+  border-radius: var(--radius-md) !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: var(--shadow-md) !important;
+  background: var(--bg-raised) !important;
+}
+
+/* Calendar today / selected day */
+#calendarGrid .bg-blue-600 { background: var(--color-primary) !important; }
+#calendarGrid .text-blue-600 { color: var(--indigo-600) !important; }
+
+/* ---- 10. Modals & overlays -------------------------------- */
+.modal-2xl,
+.rounded-2xl.bg-white,
+#trendModal > div,
+#kpiModal > div,
+#upcomingModal > div,
+#dollarModal > div,
+#assignModal > div,
+#laborTableModal > div,
+#kpiStatsModal > div,
+#maximizeModal > div,
+#chartViewModal > div,
+#dayNotesModal > div,
+#initiateModal > div,
+#copyModal > div,
+#aiModal > div,
+#auditReportModal > div,
+#timeoffReportModal > div,
+#dailyCoverageModal > div,
+#addStandardShiftModal > div,
+#helpModal > div {
+  background: var(--bg-raised) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Modal headers that use #0b2545 navy → Tasksy navy */
+.modal-2xl .bg-\[\#0b2545\],
+[id$="Modal"] .bg-\[\#0b2545\] {
+  background: var(--zip-navy) !important;
+}
+
+/* Inputs */
+.form-input {
+  border-radius: var(--radius-sm) !important;
+  border-color: var(--border-subtle) !important;
+  font-family: var(--font-sans) !important;
+}
+.form-input:focus {
+  border-color: var(--indigo-500) !important;
+  box-shadow: 0 0 0 3px rgba(91,91,214,0.18) !important;
+}
+
+/* Generic tailwind blue → indigo across the app */
+.text-blue-700  { color: var(--indigo-700) !important; }
+.text-blue-800  { color: var(--indigo-800) !important; }
+.text-blue-400  { color: var(--indigo-400) !important; }
+.bg-blue-100    { background: var(--indigo-100) !important; }
+.bg-blue-50     { background: var(--indigo-50) !important; }
+.border-blue-500{ border-color: var(--indigo-500) !important; }
+.border-blue-400{ border-color: var(--indigo-400) !important; }
+.border-blue-600{ border-color: var(--indigo-600) !important; }
+.bg-indigo-600  { background: var(--indigo-600) !important; }
+.bg-indigo-100  { background: var(--indigo-100) !important; }
+.text-indigo-700{ color: var(--indigo-700) !important; }
+
+/* ---- 11. Dark theme polish -------------------------------- */
+html.dark {
+  --zip-canvas: #0E0F1A;
+  --zip-navy:   #07091A;
+  --zip-navy-2: #131736;
+}
+html.dark body.bg-\[\#eef2f6\],
+html.dark body {
+  background: var(--bg-canvas) !important;
+  color: var(--fg-1) !important;
+}
+html.dark .card,
+html.dark .kpi-row > div {
+  background: var(--bg-surface) !important;
+  border-color: var(--border-subtle) !important;
+}
+html.dark .bg-slate-50.rounded-xl,
+html.dark .stats-summary-bar { background: var(--bg-sunken) !important; }
+html.dark .stats-label-col { background: var(--bg-sunken) !important; border-color: var(--border-default) !important; }
+html.dark #summaryStatsRow > div { background: var(--bg-surface) !important; border-color: var(--border-subtle) !important; color: var(--fg-1) !important; }
+html.dark #mainLaborTable thead th,
+html.dark #mainScheduleTable thead th { background: var(--bg-sunken) !important; color: var(--fg-2) !important; border-color: var(--border-subtle) !important; }
+html.dark #mainLaborTable tbody td { color: var(--fg-1) !important; border-color: var(--border-subtle) !important; }
+html.dark .empRow > td { background: var(--bg-surface) !important; border-color: var(--border-subtle) !important; }
+html.dark .empRow:hover > td { background: var(--bg-surface-hover) !important; }
+html.dark .text-blue-600,
+html.dark .empRow > td:first-child .text-blue-600 { color: var(--indigo-300) !important; }
+html.dark .text-slate-900,
+html.dark .text-slate-800 { color: var(--fg-1) !important; }
+html.dark .text-slate-700 { color: var(--fg-2) !important; }
+html.dark .text-slate-600 { color: var(--fg-2) !important; }
+html.dark .text-slate-500 { color: var(--fg-3) !important; }
+html.dark .text-slate-400 { color: var(--fg-4) !important; }
+html.dark .bg-white { background: var(--bg-surface) !important; }
+html.dark .bg-slate-50 { background: var(--bg-sunken) !important; }
+html.dark .bg-slate-100 { background: var(--bg-sunken) !important; }
+html.dark .border-slate-50,
+html.dark .border-slate-100,
+html.dark .border-slate-200 { border-color: var(--border-subtle) !important; }
+html.dark .tab-bar { background: var(--bg-sunken) !important; }
+html.dark .view-tab.active { background: var(--bg-surface) !important; color: var(--indigo-300) !important; }
+html.dark input, html.dark select, html.dark textarea {
+  background: var(--bg-sunken) !important; color: var(--fg-1) !important; border-color: var(--border-default) !important;
+}
+html.dark .popover-btn {
+  background: var(--bg-surface) !important; color: var(--fg-2) !important; border-color: var(--border-default) !important;
+}
+html.dark .modal-2xl,
+html.dark .rounded-2xl.bg-white,
+html.dark #profilePopup { background: var(--bg-raised) !important; }
+html.dark .popover-container,
+html.dark .action-dropdown,
+html.dark #calendarMenu { background: var(--bg-raised) !important; border-color: var(--border-default) !important; }
+
+/* AI tile in dark */
+html.dark .kpi-row .bg-indigo-600 {
+  background: linear-gradient(140deg, var(--indigo-600) 0%, var(--indigo-700) 60%, var(--indigo-800) 100%) !important;
+}
+
+/* Dashed-canvas pattern shifts (unassigned) — soften in dark */
+html.dark .unassigned-shift { filter: brightness(0.9); }
+html.dark .partial-unavailable { filter: brightness(0.85); }
+html.dark .other-store-shift { filter: brightness(0.85); }
+
+/* Pending / awaiting pills in dark */
+html.dark .text-orange-500 { color: #F5B670 !important; }
+html.dark .text-blue-500 { color: #79B2FF !important; }
+
+/* Sidebar nav active in dark */
+html.dark .sidebar .bg-\[\#1d3b6a\] { background: rgba(112,112,222,0.18) !important; }
+
+/* ---- 12. Scrollbar polish --------------------------------- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); background-clip: padding-box; border: 2px solid transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- 13. Selection ---------------------------------------- */
+::selection { background: var(--indigo-100); color: var(--indigo-900); }
+html.dark ::selection { background: rgba(112,112,222,0.35); color: var(--fg-1); }
